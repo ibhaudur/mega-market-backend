@@ -1,12 +1,13 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const schema = new Schema({
   productName: {
     type: String,
     required: true,
+    unique: true,
   },
   price: {
-    type: number,
+    type: Number,
     required: true,
   },
 });
