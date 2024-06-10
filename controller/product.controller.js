@@ -33,3 +33,34 @@ export const ProductCreate = async (req, res) => {
     res.status(500).json({ msg: { message: err.message } });
   }
 };
+export const ProductUpdate = async (req, res) => {
+  try {
+    const updatedProduct = await Product.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        productName: req.body.productName,
+        price: req.body.price,
+      },
+      {
+        new: true,
+      }
+    );
+
+    res.status(200).json(updatedProduct);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+export const ProductDelete = async (req, res) => {
+  const ProductById = await Product.findById(req.params.id);
+  if (ProductById == null) {
+    res.status(400).json({ message: "There is No Data!" });
+  } else {
+    try {
+      await Product.deleteOne({ _id: req.params.id });
+      res.json({ message: "Deleted Successfully!" });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  }
+};
